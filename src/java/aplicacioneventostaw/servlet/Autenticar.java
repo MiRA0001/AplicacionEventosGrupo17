@@ -5,7 +5,6 @@
  */
 package aplicacioneventostaw.servlet;
 
-
 import aplicacioneventostaw.dao.UsuarioFacade;
 import aplicacioneventostaw.entity.Usuario;
 import java.io.IOException;
@@ -25,7 +24,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "Autenticar", urlPatterns = {"/Autenticar"})
 public class Autenticar extends HttpServlet {
-    
+
     @EJB
     private UsuarioFacade usuarioFacade;
 
@@ -40,56 +39,52 @@ public class Autenticar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String mail, pass, status = null, goTo="menu.jsp";
+        String mail, pass, status = null, goTo = "menu.jsp";
         Usuario usuario;
         RequestDispatcher rd;
-        
+
         mail = request.getParameter("email");
         pass = request.getParameter("password");
-        
+
         // comprobamos si el usuario está en la BD
         usuario = this.usuarioFacade.findByEmail(mail);
-        
-        if (usuario == null) { 
-           status = "El usuario no se encuentra en la base de datos";
-           request.setAttribute("status", status);
-           goTo = "login.jsp";
-        } else if (!pass.equals(usuario.getPassword())) { 
-           status = "La clave es incorrecta";
-           request.setAttribute("status", status);
-           goTo = "login.jsp";                       
+
+        if (usuario == null) {
+            status = "El usuario no se encuentra en la base de datos";
+            request.setAttribute("status", status);
+            goTo = "login.jsp";
+        } else if (!pass.equals(usuario.getPassword())) {
+            status = "La clave es incorrecta";
+            request.setAttribute("status", status);
+            goTo = "login.jsp";
         } else { // el usuario está y la clave es correcta
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuario); // introducimos el usuario en la sesión para saber que está autenticado
+            switch (usuario.getRol()) {
+                case 1://Administrador del sistema 
+                    goTo = "ListarDatosAdministradorSistema";
+                    break;
+
+                case 2://Creador de eventos  
+
+                    break;
+
+                case 3://Analistas de eventos  
+
+                    break;
+
+                case 4://Usuario de eventos  
+
+                    break;
+
+                case 5://Teleoperadores  
+                    break;
+            }
         }
-        
-        
-        switch (usuario.getRol()) 
-        {
-            case 1://Administrador del sistema 
-                goTo="ListarDatosAdministradorSistema";
-            break;
-            
-            case 2://Creador de eventos  
-      
-            break;
-            
-            case 3://Analistas de eventos  
-                
-            break;
-            
-            case 4://Usuario de eventos  
-                
-            break;
-            
-            case 5://Teleoperadores  
-            break;
-        }
-        
+
         rd = request.getRequestDispatcher(goTo);
-        rd.forward(request, response);        
+        rd.forward(request, response);
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
