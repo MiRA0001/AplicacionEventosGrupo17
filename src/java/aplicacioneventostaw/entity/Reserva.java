@@ -45,10 +45,10 @@ public class Reserva implements Serializable {
     private Integer asiento;
     @JoinColumn(name = "EVENTO_ID", referencedColumnName = "EVENTO_ID")
     @ManyToOne(optional = false)
-    private Evento evento;
+    private Evento eventoId;
     @JoinColumn(name = "USUARIO_ID", referencedColumnName = "USUARIO_ID")
     @ManyToOne(optional = false)
-    private UsuarioEventos usuarioEventos;
+    private UsuarioEventos usuarioId;
 
     public Reserva() {
     }
@@ -81,20 +81,20 @@ public class Reserva implements Serializable {
         this.asiento = asiento;
     }
 
-    public Evento getEvento() {
-        return evento;
+    public Evento getEventoId() {
+        return eventoId;
     }
 
-    public void setEvento(Evento evento) {
-        this.evento = evento;
+    public void setEventoId(Evento eventoId) {
+        this.eventoId = eventoId;
     }
 
-    public UsuarioEventos getUsuarioEventos() {
-        return usuarioEventos;
+    public UsuarioEventos getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setUsuarioEventos(UsuarioEventos usuarioEventos) {
-        this.usuarioEventos = usuarioEventos;
+    public void setUsuarioId(UsuarioEventos usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     @Override

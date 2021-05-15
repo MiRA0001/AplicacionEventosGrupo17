@@ -65,7 +65,7 @@ public class UsuarioEventos implements Serializable {
     @JoinColumn(name = "USUARIO_ID", referencedColumnName = "USUARIO_ID", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Usuario usuario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioEventos")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
     private List<Reserva> reservaList;
 
     public UsuarioEventos() {

@@ -75,7 +75,7 @@ public class Estudio implements Serializable {
     private String usuarioEventosValores;
     @JoinColumn(name = "ANALISTA_ID", referencedColumnName = "USUARIO_ID")
     @ManyToOne(optional = false)
-    private Usuario usuario;
+    private Usuario analistaId;
 
     public Estudio() {
     }
@@ -185,12 +185,12 @@ public class Estudio implements Serializable {
         this.usuarioEventosValores = usuarioEventosValores;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getAnalistaId() {
+        return analistaId;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setAnalistaId(Usuario analistaId) {
+        this.analistaId = analistaId;
     }
 
     @Override

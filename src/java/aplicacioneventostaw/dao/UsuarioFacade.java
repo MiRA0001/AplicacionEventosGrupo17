@@ -31,7 +31,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         super(Usuario.class);
     }
     
-        public Usuario findByEmail(String em) {
+      public Usuario findByEmail(String em) {
         Query q;
         Usuario usuario = null;
         List<Usuario> lista;
@@ -45,6 +45,19 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
             usuario = lista.get(0); // Como sé que solo hay uno, devuelvo directament el primero
         }
         return usuario;
+    }
+      public List<Usuario> findListByRolOrEmail(String email, String rol) {
+        Query q;
+        String comparador = "=";
+        if(rol==""){
+            comparador = ">";
+        }
+        q = this.getEntityManager().createQuery("SELECT u FROM Usuario u WHERE u.email like :email and u.rol "+comparador+" :rol");
+        q.setParameter("email", "%"+email+"%");
+        q.setParameter("rol", rol=="" ? 0 : new Integer(rol));
+        
+
+        return q.getResultList();
     }
     
 }

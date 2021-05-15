@@ -54,20 +54,18 @@ public class Usuario implements Serializable {
     private String password;
     @Column(name = "ROL")
     private Integer rol;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
     private List<Conversacion> conversacionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario1")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teleoperadorId")
     private List<Conversacion> conversacionList1;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
     private UsuarioEventos usuarioEventos;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "analistaId")
     private List<Estudio> estudioList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creadorId")
     private List<Evento> eventoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "remitenteId")
     private List<Mensaje> mensajeList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario1")
-    private List<Mensaje> mensajeList1;
 
     public Usuario() {
     }
@@ -165,15 +163,6 @@ public class Usuario implements Serializable {
 
     public void setMensajeList(List<Mensaje> mensajeList) {
         this.mensajeList = mensajeList;
-    }
-
-    @XmlTransient
-    public List<Mensaje> getMensajeList1() {
-        return mensajeList1;
-    }
-
-    public void setMensajeList1(List<Mensaje> mensajeList1) {
-        this.mensajeList1 = mensajeList1;
     }
 
     @Override

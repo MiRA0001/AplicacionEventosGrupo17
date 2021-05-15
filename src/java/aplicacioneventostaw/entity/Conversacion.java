@@ -6,7 +6,9 @@
 package aplicacioneventostaw.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +18,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,10 +43,12 @@ public class Conversacion implements Serializable {
     private Integer conversacionId;
     @JoinColumn(name = "USUARIO_ID", referencedColumnName = "USUARIO_ID")
     @ManyToOne(optional = false)
-    private Usuario usuario;
+    private Usuario usuarioId;
     @JoinColumn(name = "TELEOPERADOR_ID", referencedColumnName = "USUARIO_ID")
     @ManyToOne(optional = false)
-    private Usuario usuario1;
+    private Usuario teleoperadorId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conversacionId")
+    private List<Mensaje> mensajeList;
 
     public Conversacion() {
     }
@@ -59,20 +65,29 @@ public class Conversacion implements Serializable {
         this.conversacionId = conversacionId;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarioId(Usuario usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
-    public Usuario getUsuario1() {
-        return usuario1;
+    public Usuario getTeleoperadorId() {
+        return teleoperadorId;
     }
 
-    public void setUsuario1(Usuario usuario1) {
-        this.usuario1 = usuario1;
+    public void setTeleoperadorId(Usuario teleoperadorId) {
+        this.teleoperadorId = teleoperadorId;
+    }
+
+    @XmlTransient
+    public List<Mensaje> getMensajeList() {
+        return mensajeList;
+    }
+
+    public void setMensajeList(List<Mensaje> mensajeList) {
+        this.mensajeList = mensajeList;
     }
 
     @Override

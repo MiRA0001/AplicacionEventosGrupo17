@@ -9,6 +9,7 @@ import aplicacioneventostaw.entity.Etiqueta;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +30,15 @@ public class EtiquetaFacade extends AbstractFacade<Etiqueta> {
         super(Etiqueta.class);
     }
     
+        public Etiqueta getEtiquetaByNombre(String str){
+        Query q;
+        q = this.em.createQuery("SELECT e FROM Etiqueta e WHERE e.nombre = :nombre ORDER BY e.nombre");
+        q.setParameter("nombre", str);
+        if (q.getResultList().isEmpty()){
+            return null;
+        }else{
+            return (Etiqueta)q.getResultList().get(0);
+        }
+        
+    }
 }

@@ -5,7 +5,8 @@
  */
 package aplicacioneventostaw.servlet;
 
-import aplicacioneventostaw.dao.UsuarioFacade;
+import aplicacioneventostaw.dao.EventoFacade;
+import aplicacioneventostaw.entity.Evento;
 import aplicacioneventostaw.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,11 +23,11 @@ import javax.servlet.http.HttpSession;
  *
  * @author mira
  */
-@WebServlet(name = "CrearEditarUsuario", urlPatterns = {"/EditarUsuario", "/CrearUsuario"})
-public class CrearEditarUsuario extends HttpServlet {
+@WebServlet(name = "CrearEditarEvento", urlPatterns = {"/EditarEvento", "/CrearEvento"})
+public class CrearEditarEvento extends HttpServlet {
 
     @EJB
-    private UsuarioFacade usuarioFacade;
+    private EventoFacade eventoFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,25 +38,29 @@ public class CrearEditarUsuario extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Usuario logeado = (Usuario) session.getAttribute("usuario");
-        String goTo = "usuarioCU.jsp";
+        String goTo = "evento.jsp";
+        String status="Creando";
         if (logeado == null) {
             goTo = "Salir";
         } else {
-            String id = request.getParameter("id");
-
+             String id = request.getParameter("id");
+             
             if (id != null) { //modificar
-                Usuario usu = usuarioFacade.find(new Integer(id));
-                request.setAttribute("usuario", usu);
+                status = "Editando";
+                Evento eve = eventoFacade.find(new Integer(id));
+                request.setAttribute("evento", eve);
+                request.setAttribute("status", status);
             }
+            RequestDispatcher rd = request.getRequestDispatcher(goTo);
+            rd.forward(request, response);
         }
-
-        RequestDispatcher rd = request.getRequestDispatcher(goTo);
-        rd.forward(request, response);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

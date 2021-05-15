@@ -5,7 +5,6 @@
  */
 package aplicacioneventostaw.servlet;
 
-
 import aplicacioneventostaw.dao.UsuarioFacade;
 import aplicacioneventostaw.entity.Usuario;
 import java.io.IOException;
@@ -17,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -27,7 +27,6 @@ public class GuardarUsuario extends HttpServlet {
 
     @EJB
     private UsuarioFacade usuarioFacade;
-    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,36 +37,44 @@ public class GuardarUsuario extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        String email = request.getParameter("email");
-        Integer rol = request.getParameter("rol").isEmpty() ? 4 : new Integer(request.getParameter("rol"));
-        String password = request.getParameter("password");
 
-        Usuario usu;
-        
-       
-        if(id!=null && !id.isEmpty()){ //Cargamos el usuario
-          usu = usuarioFacade.find(new Integer(id));
-        }else{ //Creamos uno nuevo
-            usu = new Usuario(0);
+        HttpSession session = request.getSession();
+        Usuario logeado = (Usuario) session.getAttribute("usuario");
+        String goTo = "ListarDatosAdministradorSistema";
+        if (logeado == null) {
+            goTo = "Salir";
+        } else {
+
+            String id = request.getParameter("id");
+            String email = request.getParameter("email");
+            Integer rol = request.getParameter("rol").isEmpty() ? 4 : new Integer(request.getParameter("rol"));
+            String password = request.getParameter("password");
+
+            Usuario usu;
+
+            if (id != null && !id.isEmpty()) { //Cargamos el usuario
+                usu = usuarioFacade.find(new Integer(id));
+            } else { //Creamos uno nuevo
+                usu = new Usuario(0);
+            }
+
+            usu.setEmail(email);
+            usu.setRol(rol);
+            usu.setPassword(password);
+
+            if (id != null && !id.isEmpty()) { //Editamos el usuario
+                usuarioFacade.edit(usu);
+            } else { //Creamos uno nuevo
+                usuarioFacade.create(usu);
+            }
+
         }
-        
-        usu.setEmail(email);
-        usu.setRol(rol);
-        usu.setPassword(password);
- 
-        if(id!=null && !id.isEmpty()){ //Editamos el usuario
-          usuarioFacade.edit(usu);
-        }else{ //Creamos uno nuevo
-            usuarioFacade.create(usu);
-        }
-        
-        RequestDispatcher rd = request.getRequestDispatcher("ListarDatosAdministradorSistema");
-        rd.forward(request, response); 
-       
+
+        RequestDispatcher rd = request.getRequestDispatcher(goTo);
+        rd.forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

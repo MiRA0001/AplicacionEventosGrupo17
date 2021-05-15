@@ -22,8 +22,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author mira
  */
-@WebServlet(name = "CrearEditarUsuario", urlPatterns = {"/EditarUsuario", "/CrearUsuario"})
-public class CrearEditarUsuario extends HttpServlet {
+@WebServlet(name = "BorrarUsuario", urlPatterns = {"/BorrarUsuario"})
+public class BorrarUsuario extends HttpServlet {
 
     @EJB
     private UsuarioFacade usuarioFacade;
@@ -41,21 +41,17 @@ public class CrearEditarUsuario extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Usuario logeado = (Usuario) session.getAttribute("usuario");
-        String goTo = "usuarioCU.jsp";
+        String goTo = "ListarDatosAdministradorSistema";
         if (logeado == null) {
             goTo = "Salir";
         } else {
-            String id = request.getParameter("id");
-
-            if (id != null) { //modificar
-                Usuario usu = usuarioFacade.find(new Integer(id));
-                request.setAttribute("usuario", usu);
-            }
+            Integer Id = new Integer( request.getParameter("id") );
+            Usuario usu = usuarioFacade.find(Id);
+            usuarioFacade.remove(usu);
         }
 
         RequestDispatcher rd = request.getRequestDispatcher(goTo);
         rd.forward(request, response);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

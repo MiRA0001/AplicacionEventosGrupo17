@@ -50,12 +50,12 @@ public class Mensaje implements Serializable {
     @Column(name = "ENVIADO")
     @Temporal(TemporalType.TIMESTAMP)
     private Date enviado;
-    @JoinColumn(name = "CONVERSACION_ID", referencedColumnName = "USUARIO_ID")
+    @JoinColumn(name = "CONVERSACION_ID", referencedColumnName = "CONVERSACION_ID")
     @ManyToOne(optional = false)
-    private Usuario usuario;
+    private Conversacion conversacionId;
     @JoinColumn(name = "REMITENTE_ID", referencedColumnName = "USUARIO_ID")
     @ManyToOne(optional = false)
-    private Usuario usuario1;
+    private Usuario remitenteId;
 
     public Mensaje() {
     }
@@ -93,20 +93,20 @@ public class Mensaje implements Serializable {
         this.enviado = enviado;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Conversacion getConversacionId() {
+        return conversacionId;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setConversacionId(Conversacion conversacionId) {
+        this.conversacionId = conversacionId;
     }
 
-    public Usuario getUsuario1() {
-        return usuario1;
+    public Usuario getRemitenteId() {
+        return remitenteId;
     }
 
-    public void setUsuario1(Usuario usuario1) {
-        this.usuario1 = usuario1;
+    public void setRemitenteId(Usuario remitenteId) {
+        this.remitenteId = remitenteId;
     }
 
     @Override

@@ -32,11 +32,11 @@
         <form method="POST" action="GuardarUsuario"  >
             <input type="hidden" name="id" value="<%=id%>"><br>
             <label for="email" >Email</label><br>
-            <input type="text" name="email" value="<%=email%>"><br
+            <input type="email" name="email" value="<%=email%>" maxlength = "50" required ><br
             <label for="password" >Contraseña</label><br>
-            <input type="text" name="password" value="<%=password%>"><br>
+            <input type="password" name="password" value="<%=password%>" maxlength = "50" required ><br>
             <label for="rol">Rol</label><br>
-            <input type="text"  name="rol" value="<%=rol%>"><br><br><br>
+            <input type="number"  name="rol" value="<%=rol%>"  min="1" max="4" required ><br><br><br>
             <label for="nombre" >Nombre</label><br>
             <input type="submit" value="Guardar">
         </form>

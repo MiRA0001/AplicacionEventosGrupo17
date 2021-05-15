@@ -99,11 +99,11 @@ public class Evento implements Serializable {
         @JoinColumn(name = "ETIQUETA_ID", referencedColumnName = "ETIQUETA_ID")})
     @ManyToMany
     private List<Etiqueta> etiquetaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "evento")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "eventoId")
     private List<Reserva> reservaList;
     @JoinColumn(name = "CREADOR_ID", referencedColumnName = "USUARIO_ID")
     @ManyToOne(optional = false)
-    private Usuario usuario;
+    private Usuario creadorId;
 
     public Evento() {
     }
@@ -238,12 +238,12 @@ public class Evento implements Serializable {
         this.reservaList = reservaList;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getCreadorId() {
+        return creadorId;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setCreadorId(Usuario creadorId) {
+        this.creadorId = creadorId;
     }
 
     @Override
